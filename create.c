@@ -29,6 +29,8 @@
  * SUCH DAMAGE.
  */
 
+
+
 #if HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -36,7 +38,7 @@
 #include "nbtool_config.h"
 #endif
 
-#include <nbcompat.h>
+//#include <nbcompat.h>
 #if HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
@@ -111,11 +113,12 @@ __RCSID("$NetBSD: create.c,v 1.9 2013/09/08 16:20:10 ryoon Exp $");
 #if HAVE_SHA2_H && HAVE_SHA512_FILE
 #include <sha2.h>
 #else
-#include <nbcompat/sha2.h>
+//#include <nbcompat/sha2.h>
 #endif
 #endif
 
 #include "extern.h"
+#include "hash-file.h"
 
 #define	INDENTNAMELEN	15
 #define	MAXLINELEN	80
@@ -244,44 +247,34 @@ statf(FTSENT *p)
 		close(fd);
 		output(&indent, "cksum=%lu", (long)val);
 	}
-#ifndef NO_MD5
-	if (keys & F_MD5 && S_ISREG(p->fts_statp->st_mode)) {
-		if (MD5File(p->fts_accpath, digestbuf) == NULL)
-			mtree_err("%s: %s", p->fts_accpath, "MD5File");
-		output(&indent, "md5=%s", digestbuf);
+
+
+
+
+  if (keys & F_MD5) {
+    algo_index = HASH_MD5;
+  } else if (keys & F_RMD160) {
+    algo_index = HASH_RMD160;
+  } else if (keys & F_SHA1) {
+    algo_index = HASH_SHA1;
+  } else if (keys & F_SHA256) {
+    algo_index = HASH_SHA256;
+  } else if (keys & F_SHA384) {
+    algo_index = HASH_SHA384;
+  } else if (keys & F_SHA512) {
+    algo_index = HASH_SHA512;
+  } else {
+    mtree_err("Wrong hash algorithm!");
+  }
+
+	if (S_ISREG(p->fts_statp->st_mode)) {
+		if (hash_file(p->fts_accpath, digestbuf, &algos[algo_index]) == NULL)
+			mtree_err("%s: %s", p->fts_accpath, algos[algo_index].algo_name);
+		output(&indent, "%s=%s", algos[algo_index].algo_name, digestbuf);
 	}
-#endif	/* ! NO_MD5 */
-#ifndef NO_RMD160
-	if (keys & F_RMD160 && S_ISREG(p->fts_statp->st_mode)) {
-		if (RMD160File(p->fts_accpath, digestbuf) == NULL)
-			mtree_err("%s: %s", p->fts_accpath, "RMD160File");
-		output(&indent, "rmd160=%s", digestbuf);
-	}
-#endif	/* ! NO_RMD160 */
-#ifndef NO_SHA1
-	if (keys & F_SHA1 && S_ISREG(p->fts_statp->st_mode)) {
-		if (SHA1File(p->fts_accpath, digestbuf) == NULL)
-			mtree_err("%s: %s", p->fts_accpath, "SHA1File");
-		output(&indent, "sha1=%s", digestbuf);
-	}
-#endif	/* ! NO_SHA1 */
-#ifndef NO_SHA2
-	if (keys & F_SHA256 && S_ISREG(p->fts_statp->st_mode)) {
-		if (SHA256_File(p->fts_accpath, digestbuf) == NULL)
-			mtree_err("%s: %s", p->fts_accpath, "SHA256_File");
-		output(&indent, "sha256=%s", digestbuf);
-	}
-	if (keys & F_SHA384 && S_ISREG(p->fts_statp->st_mode)) {
-		if (SHA384_File(p->fts_accpath, digestbuf) == NULL)
-			mtree_err("%s: %s", p->fts_accpath, "SHA384_File");
-		output(&indent, "sha384=%s", digestbuf);
-	}
-	if (keys & F_SHA512 && S_ISREG(p->fts_statp->st_mode)) {
-		if (SHA512_File(p->fts_accpath, digestbuf) == NULL)
-			mtree_err("%s: %s", p->fts_accpath, "SHA512_File");
-		output(&indent, "sha512=%s", digestbuf);
-	}
-#endif	/* ! NO_SHA2 */
+
+
+
 	if (keys & F_SLINK &&
 	    (p->fts_info == FTS_SL || p->fts_info == FTS_SLNONE))
 		output(&indent, "link=%s", vispath(rlink(p->fts_accpath)));

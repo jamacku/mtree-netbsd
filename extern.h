@@ -31,6 +31,9 @@
  *	@(#)extern.h	8.1 (Berkeley) 6/6/93
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #if HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -44,7 +47,7 @@
 #endif
 #endif
  
-#include <nbcompat.h>
+//#include <nbcompat.h>
 #if HAVE_ERR_H
 #include <err.h> 
 #endif

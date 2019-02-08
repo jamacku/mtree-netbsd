@@ -31,6 +31,9 @@
  *	@(#)mtree.h	8.1 (Berkeley) 6/6/93
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #ifndef _MTREE_H_
 #define	_MTREE_H_
 

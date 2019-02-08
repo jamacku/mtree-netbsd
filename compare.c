@@ -36,7 +36,7 @@
 #include "nbtool_config.h"
 #endif
 
-#include <nbcompat.h>
+//#include <nbcompat.h>
 #if HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
@@ -90,7 +90,7 @@ __RCSID("$NetBSD: compare.c,v 1.7 2013/09/08 16:20:10 ryoon Exp $");
 #if HAVE_SHA2_H && HAVE_SHA512_FILE
 #include <sha2.h>
 #else
-#include <nbcompat/sha2.h>
+//#include <nbcompat/sha2.h>
 #endif
 #endif
 
