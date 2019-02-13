@@ -53,7 +53,7 @@ typedef struct _node {
 	char	*slink;				/* symbolic link reference */
 	uid_t	st_uid;				/* uid */
 	gid_t	st_gid;				/* gid */
-#define	MBITS	(S_ISUID|S_ISGID|S_ISTXT|S_IRWXU|S_IRWXG|S_IRWXO)
+#define	MBITS	(S_ISUID|S_ISGID|S_IRWXU|S_IRWXG|S_IRWXO)
 	mode_t	st_mode;			/* mode */
 	dev_t	st_rdev;			/* device type */
 	u_long	st_flags;			/* flags */

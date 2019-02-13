@@ -250,11 +250,11 @@ statf(FTSENT *p)
 
 
 
-
+  unsigned algo_index;
   if (keys & F_MD5) {
     algo_index = HASH_MD5;
   } else if (keys & F_RMD160) {
-    algo_index = HASH_RMD160;
+    algo_index = HASH_RIPEMD160;
   } else if (keys & F_SHA1) {
     algo_index = HASH_SHA1;
   } else if (keys & F_SHA256) {

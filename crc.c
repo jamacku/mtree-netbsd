@@ -32,6 +32,9 @@
  * SUCH DAMAGE.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #if HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -39,7 +42,7 @@
 #include "nbtool_config.h"
 #endif
 
-#include <nbcompat.h>
+//#include <nbcompat.h>
 #if HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
