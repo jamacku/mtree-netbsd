@@ -29,6 +29,8 @@
  * SUCH DAMAGE.
  */
 
+#include <bsd/string.h>
+
 #if HAVE_CONFIG_H
 #include "config.h"
 #endif

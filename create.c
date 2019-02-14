@@ -248,9 +248,10 @@ statf(FTSENT *p)
 		output(&indent, "cksum=%lu", (long)val);
 	}
 
+  /*
+   * BEGIN - openssl
+   */
 
-
-  unsigned algo_index;
   if (keys & F_MD5) {
     algo_index = HASH_MD5;
   } else if (keys & F_RMD160) {
@@ -273,6 +274,9 @@ statf(FTSENT *p)
 		output(&indent, "%s=%s", algos[algo_index].algo_name, digestbuf);
 	}
 
+  /*
+   * END - openssl
+   */
 
 
 	if (keys & F_SLINK &&

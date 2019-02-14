@@ -78,6 +78,8 @@ __RCSID("$NetBSD: mtree.c,v 1.3 2004/08/21 04:10:45 jlam Exp $");
 
 #include "extern.h"
 
+#include <bsd/stdlib.h>
+
 int	ftsoptions = FTS_PHYSICAL;
 int	cflag, Cflag, dflag, Dflag, eflag, iflag, lflag, mflag,
     	rflag, sflag, tflag, uflag, Uflag;

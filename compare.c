@@ -100,6 +100,8 @@ __RCSID("$NetBSD: compare.c,v 1.7 2013/09/08 16:20:10 ryoon Exp $");
 
 #include "extern.h"
 
+#include "hash-file.h"
+
 #define	INDENTNAMELEN	8
 #define MARK								\
 do {									\
@@ -417,136 +419,43 @@ typeerr:		LABEL;
 		}
 	}
 
+  /*
+   * BEGIN - Openssl
+   */
 
-if (s->flags & F_MD5) {
-  algo_index = HASH_MD5;  
-} else if (s->flags & F_RMD160) { 
-  algo_index = HASH_RIPEMD160;  
-} else if (s->flags & F_SHA1) { 
-  algo_index = HASH_SHA1;  
-} else if (s->flags & F_SHA256) { 
-  algo_index = HASH_SHA256;  
-} else if (s->flags & F_SHA384) { 
-  algo_index = HASH_SHA384;  
-} else if (s->flags & F_SHA512) { 
-  algo_index = HASH_SHA512;  
-}
+  if (s->flags & F_MD5) {
+    algo_index = HASH_MD5;  
+  } else if (s->flags & F_RMD160) { 
+    algo_index = HASH_RIPEMD160;  
+  } else if (s->flags & F_SHA1) { 
+    algo_index = HASH_SHA1;  
+  } else if (s->flags & F_SHA256) { 
+    algo_index = HASH_SHA256;  
+  } else if (s->flags & F_SHA384) { 
+    algo_index = HASH_SHA384;  
+  } else if (s->flags & F_SHA512) { 
+    algo_index = HASH_SHA512;  
+  } else {
+    mtree_err("Wrong hash algorithm!");
+  }
 
-if (hash_file(p->fts_accpath, digestbuf, &algos[algo_index]) == NULL) {
-	LABEL;
-	printf("%s%s %s: %s\n",
-  tab, algos[algo_index]->algo_name, p->fts_accpath, strerror(errno));
-	tab = "\t";
-} else {
-	if (strcmp(s->md5digest, digestbuf)) {
-  	LABEL;
-		printf("%s%s (0x%s, 0x%s)\n",
-	  tab, algos[algo_index]->algo_name, s->md5digest, digestbuf);
-	}
-  tab = "\t";
-}
+  if (hash_file(p->fts_accpath, digestbuf, &algos[algo_index]) == NULL) {
+	  LABEL;
+	  printf("%s%s %s: %s\n",
+    tab, algos[algo_index].algo_name, p->fts_accpath, strerror(errno));
+	  tab = "\t";
+  } else {
+	  if (strcmp(s->md5digest, digestbuf)) {
+  	  LABEL;
+		  printf("%s%s (0x%s, 0x%s)\n",
+	    tab, algos[algo_index].algo_name, s->md5digest, digestbuf);
+	  }
+    tab = "\t";
+  }
 
-
-#ifndef NO_MD5
-	if (s->flags & F_MD5) {
-		if (MD5File(p->fts_accpath, digestbuf) == NULL) {
-			LABEL;
-			printf("%smd5: %s: %s\n",
-			    tab, p->fts_accpath, strerror(errno));
-			tab = "\t";
-		} else {
-			if (strcmp(s->md5digest, digestbuf)) {
-				LABEL;
-				printf("%smd5 (0x%s, 0x%s)\n",
-				    tab, s->md5digest, digestbuf);
-			}
-			tab = "\t";
-		}
-	}
-#endif	/* ! NO_MD5 */
-#ifndef NO_RMD160
-	if (s->flags & F_RMD160) {
-		if (RMD160File(p->fts_accpath, digestbuf) == NULL) {
-			LABEL;
-			printf("%srmd160: %s: %s\n",
-			    tab, p->fts_accpath, strerror(errno));
-			tab = "\t";
-		} else {
-			if (strcmp(s->rmd160digest, digestbuf)) {
-				LABEL;
-				printf("%srmd160 (0x%s, 0x%s)\n",
-				    tab, s->rmd160digest, digestbuf);
-			}
-			tab = "\t";
-		}
-	}
-#endif	/* ! NO_RMD160 */
-#ifndef NO_SHA1
-	if (s->flags & F_SHA1) {
-		if (SHA1File(p->fts_accpath, digestbuf) == NULL) {
-			LABEL;
-			printf("%ssha1: %s: %s\n",
-			    tab, p->fts_accpath, strerror(errno));
-			tab = "\t";
-		} else {
-			if (strcmp(s->sha1digest, digestbuf)) {
-				LABEL;
-				printf("%ssha1 (0x%s, 0x%s)\n",
-				    tab, s->sha1digest, digestbuf);
-			}
-			tab = "\t";
-		}
-	}
-#endif	/* ! NO_SHA1 */
-#ifndef NO_SHA2
-	if (s->flags & F_SHA256) {
-		if (SHA256_File(p->fts_accpath, digestbuf) == NULL) {
-			LABEL;
-			printf("%ssha256: %s: %s\n",
-			    tab, p->fts_accpath, strerror(errno));
-			tab = "\t";
-		} else {
-			if (strcmp(s->sha256digest, digestbuf)) {
-				LABEL;
-				printf("%ssha256 (0x%s, 0x%s)\n",
-				    tab, s->sha256digest, digestbuf);
-			}
-			tab = "\t";
-		}
-	}
-	if (s->flags & F_SHA384) {
-		if (SHA384_File(p->fts_accpath, digestbuf) == NULL) {
-			LABEL;
-			printf("%ssha384: %s: %s\n",
-			    tab, p->fts_accpath, strerror(errno));
-			tab = "\t";
-		} else {
-			if (strcmp(s->sha384digest, digestbuf)) {
-				LABEL;
-				printf("%ssha384 (0x%s, 0x%s)\n",
-				    tab, s->sha384digest, digestbuf);
-			}
-			tab = "\t";
-		}
-	}
-	if (s->flags & F_SHA512) {
-		if (SHA512_File(p->fts_accpath, digestbuf) == NULL) {
-			LABEL;
-			printf("%ssha512: %s: %s\n",
-			    tab, p->fts_accpath, strerror(errno));
-			tab = "\t";
-		} else {
-			if (strcmp(s->sha512digest, digestbuf)) {
-				LABEL;
-				printf("%ssha512 (0x%s, 0x%s)\n",
-				    tab, s->sha512digest, digestbuf);
-			}
-			tab = "\t";
-		}
-	}
-#endif	/* ! NO_SHA2 */
-
-
+  /*
+   * END - Openssl
+   */
 
 
 	if (s->flags & F_SLINK &&

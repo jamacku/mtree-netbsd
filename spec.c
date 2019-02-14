@@ -67,6 +67,7 @@
 
 #include <bsd/libutil.h>
 #include <bsd/vis.h>
+#include <bsd/unistd.h>
 
 #if HAVE_CONFIG_H
 #include "config.h"
