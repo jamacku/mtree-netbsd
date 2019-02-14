@@ -9,6 +9,8 @@
 
 #define BUFF_SIZE 1024
 
+unsigned algo_index;
+
 enum hash_algo {
   HASH_MD2,
   HASH_MD4,

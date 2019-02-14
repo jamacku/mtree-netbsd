@@ -418,6 +418,34 @@ typeerr:		LABEL;
 	}
 
 
+if (s->flags & F_MD5) {
+  algo_index = HASH_MD5;  
+} else if (s->flags & F_RMD160) { 
+  algo_index = HASH_RIPEMD160;  
+} else if (s->flags & F_SHA1) { 
+  algo_index = HASH_SHA1;  
+} else if (s->flags & F_SHA256) { 
+  algo_index = HASH_SHA256;  
+} else if (s->flags & F_SHA384) { 
+  algo_index = HASH_SHA384;  
+} else if (s->flags & F_SHA512) { 
+  algo_index = HASH_SHA512;  
+}
+
+if (hash_file(p->fts_accpath, digestbuf, &algos[algo_index]) == NULL) {
+	LABEL;
+	printf("%s%s %s: %s\n",
+  tab, algos[algo_index]->algo_name, p->fts_accpath, strerror(errno));
+	tab = "\t";
+} else {
+	if (strcmp(s->md5digest, digestbuf)) {
+  	LABEL;
+		printf("%s%s (0x%s, 0x%s)\n",
+	  tab, algos[algo_index]->algo_name, s->md5digest, digestbuf);
+	}
+  tab = "\t";
+}
+
 
 #ifndef NO_MD5
 	if (s->flags & F_MD5) {
