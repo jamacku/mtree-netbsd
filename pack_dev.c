@@ -43,12 +43,12 @@
 #include "nbtool_config.h"
 #endif
 
-#include <nbcompat.h>
+//#include <nbcompat.h>
 #if HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
 #if !defined(lint)
-__RCSID("$NetBSD: pack_dev.c,v 1.5 2008/11/06 02:14:52 jschauma Exp $");
+//__RCSID("$NetBSD: pack_dev.c,v 1.5 2008/11/06 02:14:52 jschauma Exp $");
 #endif /* not lint */
 
 #if HAVE_SYS_TYPES_H

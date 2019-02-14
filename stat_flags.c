@@ -40,7 +40,7 @@
 #endif
 #endif
 
-#include <nbcompat.h>
+//#include <nbcompat.h>
 #if HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
@@ -48,7 +48,7 @@
 #if 0
 static char sccsid[] = "@(#)stat_flags.c	8.2 (Berkeley) 7/28/94";
 #else
-__RCSID("$NetBSD: stat_flags.c,v 1.5 2011/07/27 15:31:00 seb Exp $");
+//__RCSID("$NetBSD: stat_flags.c,v 1.5 2011/07/27 15:31:00 seb Exp $");
 #endif
 #endif /* not lint */
 

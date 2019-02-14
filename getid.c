@@ -74,7 +74,7 @@
 #include "nbtool_config.h"
 #endif
 
-#include <nbcompat.h>
+//#include <nbcompat.h>
 #if HAVE_SYS_PARAM_H
 #include <sys/param.h>
 #endif
@@ -105,6 +105,10 @@
 #endif
 
 #include "extern.h"
+
+/* Valudes from /etc/login.defs */
+#define UID_MAX 60000
+#define GID_MAX 60000
 
 static	struct group *	gi_getgrnam(const char *);
 static	struct group *	gi_getgrgid(gid_t);
