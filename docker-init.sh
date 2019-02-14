@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt update
-apt -y install wget vim gdb
+apt -y install wget vim gdb dpkg-dev
 
 cd /home
 
@@ -23,8 +23,16 @@ wget https://launchpad.net/ubuntu/+archive/primary/+files/mtree-netbsd-dbgsym_20
 
 dpkg -i ./mtree-netbsd_20180822-4_amd64.deb ./mtree-netbsd-dbgsym_20180822-4_amd64.ddeb
 
+# mtree source files
+wget https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/mtree-netbsd/20180822-4/mtree-netbsd_20180822-4.diff.gz
+wget https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/mtree-netbsd/20180822-4/mtree-netbsd_20180822.orig.tar.gz
+wget https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/mtree-netbsd/20180822-4/mtree-netbsd_20180822-4.dsc
+
+dpkg-source -x mtree-netbsd_20180822-4.dsc
+
 # sudo docker container run -d -it --mount type=bind,source=/home/jamacku/Source/mtree-netbsd/docker-init.sh,target=/home/docker-init.sh --cap-add=SYS_PTRACE --security-opt seccomp=unconfined ubuntu:latest
 # sudo docker exec -it <name> /bin/bash
 
 # gdb --args mtre -c
 # -> start
+# -> dir /home/mtree-netbsd-20180822/
