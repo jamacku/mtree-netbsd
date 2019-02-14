@@ -33,6 +33,6 @@ dpkg-source -x mtree-netbsd_20180822-4.dsc
 # sudo docker container run -d -it --mount type=bind,source=/home/jamacku/Source/mtree-netbsd/docker-init.sh,target=/home/docker-init.sh --cap-add=SYS_PTRACE --security-opt seccomp=unconfined ubuntu:latest
 # sudo docker exec -it <name> /bin/bash
 
-# gdb --args mtre -c
+# gdb --args mtree -c -X mtree-netbsd_20180822-4.dsc
 # -> start
 # -> dir /home/mtree-netbsd-20180822/
