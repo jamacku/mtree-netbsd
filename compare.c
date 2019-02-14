@@ -36,6 +36,9 @@
 #include "nbtool_config.h"
 #endif
 
+#include <sys/stat.h>
+#include <sys/time.h>
+
 //#include <nbcompat.h>
 #if HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
@@ -413,6 +416,9 @@ typeerr:		LABEL;
 			tab = "\t";
 		}
 	}
+
+
+
 #ifndef NO_MD5
 	if (s->flags & F_MD5) {
 		if (MD5File(p->fts_accpath, digestbuf) == NULL) {
@@ -511,6 +517,10 @@ typeerr:		LABEL;
 		}
 	}
 #endif	/* ! NO_SHA2 */
+
+
+
+
 	if (s->flags & F_SLINK &&
 	    strcmp(cp = rlink(p->fts_accpath), s->slink)) {
 		LABEL;
